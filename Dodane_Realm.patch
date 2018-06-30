@@ -1,0 +1,115 @@
+Index: app/src/main/java/com/example/kuba/musicappkuba/MusicApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/kuba/musicappkuba/MusicApplication.java	(revision )
++++ app/src/main/java/com/example/kuba/musicappkuba/MusicApplication.java	(revision )
+@@ -0,0 +1,30 @@
++package com.example.kuba.musicappkuba;
++
++import android.app.Application;
++
++import io.realm.Realm;
++import io.realm.RealmConfiguration;
++
++/**
++ * Created by W57463 on 2018-06-30.
++ */
++
++public class MusicApplication extends Application {
++
++    @Override
++    public void onCreate() {
++        super.onCreate();
++
++        Realm. init ( this );
++
++        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
++                .schemaVersion(1)
++                .deleteRealmIfMigrationNeeded()
++                .build()
++
++         Realm.compactRealm(realmConfiguration);
++        Realm. setDefaultConfiguration (realmConfiguration);
++
++    }
++}
++
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 58dfc57fa4e7ae2d2dc8a2f32df45e8756a17383)
++++ app/build.gradle	(revision )
+@@ -1,4 +1,5 @@
+ apply plugin: 'com.android.application'
++apply plugin : 'realm-android'
+ 
+ android {
+     compileSdkVersion 26
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 58dfc57fa4e7ae2d2dc8a2f32df45e8756a17383)
++++ build.gradle	(revision )
+@@ -8,6 +8,7 @@
+     }
+     dependencies {
+         classpath 'com.android.tools.build:gradle:3.0.1'
++        classpath 'io.realm:realm-gradle-plugin:5.1.0'
+         
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 58dfc57fa4e7ae2d2dc8a2f32df45e8756a17383)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -5,6 +5,7 @@
+     <uses-permission android:name= "android.permission.INTERNET"/>
+ 
+     <application
++        android:name=".MusicApplication"
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+@@ -21,7 +22,7 @@
+         <activity
+             android:name=".topsongs.TopSongsActivity"
+             android:label="@string/top_songs">
+-
++            <activity> android:name".topsongs.SongDetailsActivity"></activity>
+         </activity>
+     </application>
+ 
+Index: app/src/main/java/com/example/kuba/musicappkuba/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/kuba/musicappkuba/MainActivity.java	(revision 58dfc57fa4e7ae2d2dc8a2f32df45e8756a17383)
++++ app/src/main/java/com/example/kuba/musicappkuba/MainActivity.java	(revision )
+@@ -10,6 +10,8 @@
+ import com.example.kuba.musicappkuba.R;
+ import com.example.kuba.musicappkuba.topsongs.TopSongsActivity;
+ 
++import io.realm.Realm;
++
+ public class MainActivity extends AppCompatActivity {
+ 
+     @Override
+@@ -17,6 +19,8 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+ 
++
++
+         Button bTopSongs = findViewById(R.id.bTopSongs);
+         bTopSongs.setOnClickListener(new View.OnClickListener() {
+             @Override
