@@ -10,12 +10,16 @@ import android.widget.Button;
 import com.example.kuba.musicappkuba.R;
 import com.example.kuba.musicappkuba.topsongs.TopSongsActivity;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Button bTopSongs = findViewById(R.id.bTopSongs);
         bTopSongs.setOnClickListener(new View.OnClickListener() {
